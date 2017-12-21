@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Test from './Test'
 
+
 class Counter extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      userName:"default"
+    }
     this.incrementAsync = this.incrementAsync.bind(this);
     this.incrementIfOdd = this.incrementIfOdd.bind(this);
+    this.handleUser = this.handleUser.bind(this)
+    this.addUser = this.addUser.bind(this)
   }
 
   incrementIfOdd() {
@@ -19,11 +25,21 @@ class Counter extends Component {
     setTimeout(this.props.onIncrement, 1000)
   }
 
+  handleUser(e){
+    console.log(e.target.value)
+    let val = e.target.value
+    this.setState({userName:val})
+  }
+
+  addUser(){
+    this.props.addUser(this.state.userName)
+  }
+
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     const { value, onIncrement, onDecrement } = this.props
     return (
-      <div>
+      <div className="counter">
         Clicked: {value} times
         {' '}
         <button onClick={onIncrement}>
@@ -41,7 +57,10 @@ class Counter extends Component {
         <button onClick={this.incrementAsync}>
           Increment async
         </button>
-        <Test/>
+        <input type="text" value={this.state.userName} onChange={this.handleUser}/>
+        <button onClick={this.addUser}>
+          adduser
+        </button>
       </div>
     )
   }
